@@ -32,3 +32,16 @@ javadocLinks {
     exclude(libs.immutablesValueAnnotations)
     exclude(libs.immutablesAnnotate)
 }
+
+publishing {
+    repositories {
+        maven {
+            name = "spectris-snapshots"
+            url = uri("https://repo.spectr.is/snapshots/")
+            credentials {
+                username = (project.findProperty("spectrisUsername") ?: System.getenv("spectrisUsername")) as? String
+                password = (project.findProperty("spectrisPassword") ?: System.getenv("spectrisPassword")) as? String
+            }
+        }
+    }
+}
