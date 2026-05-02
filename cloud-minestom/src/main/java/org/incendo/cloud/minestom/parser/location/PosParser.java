@@ -68,7 +68,8 @@ public final class PosParser<C> implements ArgumentParser<C, Pos>, BlockingSugge
      * Creates a new pos parser.
      *
      * @param requireRotation whether yaw and pitch tokens are required; if {@code false} they default to {@code 0}
-     * @param <C>             command sender type
+     *
+     * @param <C> command sender type
      * @return the created parser
      * @since 2.0.0
      */

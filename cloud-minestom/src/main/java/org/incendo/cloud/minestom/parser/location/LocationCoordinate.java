@@ -49,8 +49,8 @@ final class LocationCoordinate<C> implements ArgumentParser<C, LocationCoordinat
     /**
      * Creates a new coordinate component.
      *
-     * @param <C>   command sender type
-     * @param type  the coordinate type
+     * @param <C> command sender type
+     * @param type the coordinate type
      * @param value the numeric offset
      * @return the created component
      */
@@ -111,7 +111,7 @@ final class LocationCoordinate<C> implements ArgumentParser<C, LocationCoordinat
     }
 
     /**
-     * Returns the raw numeric offset or absolute value.
+     * Returns the absolute/relative value of the location
      *
      * @return value
      */

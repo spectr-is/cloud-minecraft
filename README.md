@@ -47,7 +47,8 @@ final MinestomCommandManager<CommandSender> manager = new MinestomCommandManager
 See [examples/example-minestom](https://github.com/spectr-is/cloud-minecraft/blob/master/examples/example-minestom/src/main/java/org/incendo/cloud/examples/minestom/ExampleServer.java)
 
 ### Minestom Parsers
-As of right now there's only two built-in parsers that I bothered to add.
+As of right now there's only ~~two built-in parsers that I bothered to add~~ a few random parsers that I thought would be useful.\
+Don't be lazy. Register your own :)
 
 ## Included parsers
 
