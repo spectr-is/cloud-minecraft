@@ -44,7 +44,6 @@ import org.incendo.cloud.minestom.parser.ItemStackParser;
 import org.incendo.cloud.minestom.parser.PlayerParser;
 import org.incendo.cloud.minestom.parser.SoundEventParser;
 import org.incendo.cloud.minestom.parser.attribute.AttributeParser;
-import org.incendo.cloud.minestom.parser.item.ItemStackParser;
 import org.incendo.cloud.minestom.parser.location.PosParser;
 import org.incendo.cloud.minestom.parser.location.VecParser;
 
