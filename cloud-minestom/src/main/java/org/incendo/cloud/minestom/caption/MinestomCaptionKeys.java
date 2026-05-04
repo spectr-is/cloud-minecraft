@@ -55,11 +55,6 @@ public final class MinestomCaptionKeys {
     /**
      * Variables: {@code <input>}
      */
-    public static final Caption ARGUMENT_PARSE_FAILURE_GAME_MODE = of("argument.parse.failure.game_mode");
-
-    /**
-     * Variables: {@code <input>}
-     */
     public static final Caption ARGUMENT_PARSE_FAILURE_DIMENSION_TYPE = of("argument.parse.failure.dimension_type");
 
     /**
@@ -76,6 +71,21 @@ public final class MinestomCaptionKeys {
      * Variables: {@code <input>}
      */
     public static final Caption ARGUMENT_PARSE_FAILURE_ITEM_STACK = of("argument.parse.failure.item_stack");
+
+    /**
+     * Variables: {@code <input>}
+     */
+    public static final Caption ARGUMENT_PARSE_FAILURE_ENCHANTMENT = of("argument.parse.failure.enchantment");
+
+    /**
+     * Variables: {@code <input>}
+     */
+    public static final Caption ARGUMENT_PARSE_FAILURE_SOUND_EVENT = of("argument.parse.failure.sound_event");
+
+    /**
+     * Variables: {@code <input>}
+     */
+    public static final Caption ARGUMENT_PARSE_FAILURE_ATTRIBUTE = of("argument.parse.failure.attribute");
 
     private MinestomCaptionKeys() {
     }
