@@ -40,6 +40,7 @@ import org.incendo.cloud.minestom.parser.DimensionTypeParser;
 import org.incendo.cloud.minestom.parser.EnchantmentParser;
 import org.incendo.cloud.minestom.parser.EntityTypeParser;
 import org.incendo.cloud.minestom.parser.InstanceParser;
+import org.incendo.cloud.minestom.parser.ItemStackParser;
 import org.incendo.cloud.minestom.parser.PlayerParser;
 import org.incendo.cloud.minestom.parser.SoundEventParser;
 import org.incendo.cloud.minestom.parser.attribute.AttributeParser;
