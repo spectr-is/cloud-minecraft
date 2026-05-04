@@ -48,6 +48,16 @@ public final class ProtoItemStack {
     }
 
     /**
+     * Get the {@link Material} of this {@link ProtoItemStack}.
+     *
+     * @return the {@link Material}
+     * @since 1.5.0
+     */
+    public @NonNull Material material() {
+        return this.material;
+    }
+
+    /**
      * Creates an {@link ItemStack} from this proto item stack with the given amount.
      *
      * @param amount the stack size
