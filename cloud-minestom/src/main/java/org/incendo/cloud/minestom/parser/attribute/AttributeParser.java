@@ -21,12 +21,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
-package org.incendo.cloud.minestom.parser;
+package org.incendo.cloud.minestom.parser.attribute;
 
-import java.util.Arrays;
-import java.util.Locale;
 import java.util.stream.Collectors;
-import net.minestom.server.entity.GameMode;
+import net.kyori.adventure.key.Key;
+import net.minestom.server.entity.attribute.Attribute;
 import org.apiguardian.api.API;
 import org.incendo.cloud.caption.CaptionVariable;
 import org.incendo.cloud.component.CommandComponent;
@@ -41,47 +40,48 @@ import org.incendo.cloud.suggestion.BlockingSuggestionProvider;
 import org.jspecify.annotations.NonNull;
 
 /**
- * Parser for {@link GameMode game modes}.
+ * Parser for {@link Attribute}, by namespaced key.
  *
  * @param <C> command sender type
  */
-public final class GameModeParser<C> implements ArgumentParser<C, GameMode>, BlockingSuggestionProvider.Strings<C> {
+public final class AttributeParser<C> implements ArgumentParser<C, Attribute>, BlockingSuggestionProvider.Strings<C> {
 
     /**
-     * Creates a new game mode parser.
+     * Creates a new attribute parser.
      *
      * @param <C> command sender type
      * @return the created parser
      * @since 2.0.0
      */
     @API(status = API.Status.STABLE, since = "2.0.0")
-    public static <C> @NonNull ParserDescriptor<C, GameMode> gameModeParser() {
-        return ParserDescriptor.of(new GameModeParser<>(), GameMode.class);
+    public static <C> @NonNull ParserDescriptor<C, Attribute> attributeParser() {
+        return ParserDescriptor.of(new AttributeParser<>(), Attribute.class);
     }
 
     /**
-     * Returns a {@link CommandComponent.Builder} using {@link #gameModeParser()} as the parser.
+     * Returns a {@link CommandComponent.Builder} using {@link #attributeParser()} as the parser.
      *
      * @param <C> the command sender type
      * @return the component builder
      * @since 2.0.0
      */
     @API(status = API.Status.STABLE, since = "2.0.0")
-    public static <C> CommandComponent.@NonNull Builder<C, GameMode> gameModeComponent() {
-        return CommandComponent.<C, GameMode>builder().parser(gameModeParser());
+    public static <C> CommandComponent.@NonNull Builder<C, Attribute> attributeComponent() {
+        return CommandComponent.<C, Attribute>builder().parser(attributeParser());
     }
 
     @Override
-    public @NonNull ArgumentParseResult<@NonNull GameMode> parse(
+    public @NonNull ArgumentParseResult<@NonNull Attribute> parse(
         final @NonNull CommandContext<@NonNull C> commandContext,
         final @NonNull CommandInput commandInput
     ) {
         final String input = commandInput.readString();
-        return Arrays.stream(GameMode.values())
-            .filter(gm -> gm.name().equalsIgnoreCase(input))
-            .findFirst()
-            .map(ArgumentParseResult::success)
-            .orElseGet(() -> ArgumentParseResult.failure(new GameModeParseException(input, commandContext)));
+        final Key key = input.contains(":") ? Key.key(input) : Key.key("minecraft", input);
+        final Attribute attribute = Attribute.fromKey(key);
+        if (attribute == null) {
+            return ArgumentParseResult.failure(new AttributeParseException(input, commandContext));
+        }
+        return ArgumentParseResult.success(attribute);
     }
 
     @Override
@@ -89,32 +89,32 @@ public final class GameModeParser<C> implements ArgumentParser<C, GameMode>, Blo
         final @NonNull CommandContext<C> commandContext,
         final @NonNull CommandInput input
     ) {
-        return Arrays.stream(GameMode.values())
-            .map(gm -> gm.name().toLowerCase(Locale.ROOT))
+        return Attribute.values().stream()
+            .map(a -> a.key().value())
             .collect(Collectors.toList());
     }
 
     /**
-     * Exception thrown when a game mode cannot be found for the input provided.
+     * Exception thrown when an attribute cannot be found for the input provided.
      */
-    public static final class GameModeParseException extends ParserException {
+    public static final class AttributeParseException extends ParserException {
 
         private final String input;
 
         /**
-         * Create a new game mode parse exception.
+         * Create a new attribute parse exception.
          *
-         * @param input   string input
+         * @param input string input
          * @param context command context
          */
-        public GameModeParseException(
+        public AttributeParseException(
             final @NonNull String input,
             final @NonNull CommandContext<?> context
         ) {
             super(
-                GameModeParser.class,
+                AttributeParser.class,
                 context,
-                MinestomCaptionKeys.ARGUMENT_PARSE_FAILURE_GAME_MODE,
+                MinestomCaptionKeys.ARGUMENT_PARSE_FAILURE_ATTRIBUTE,
                 CaptionVariable.of("input", input)
             );
             this.input = input;

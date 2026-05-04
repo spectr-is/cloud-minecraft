@@ -37,11 +37,13 @@ import org.incendo.cloud.SenderMapperHolder;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.minestom.caption.MinestomDefaultCaptionsProvider;
 import org.incendo.cloud.minestom.parser.DimensionTypeParser;
+import org.incendo.cloud.minestom.parser.EnchantmentParser;
 import org.incendo.cloud.minestom.parser.EntityTypeParser;
-import org.incendo.cloud.minestom.parser.GameModeParser;
 import org.incendo.cloud.minestom.parser.InstanceParser;
-import org.incendo.cloud.minestom.parser.ItemStackParser;
 import org.incendo.cloud.minestom.parser.PlayerParser;
+import org.incendo.cloud.minestom.parser.SoundEventParser;
+import org.incendo.cloud.minestom.parser.attribute.AttributeParser;
+import org.incendo.cloud.minestom.parser.item.ItemStackParser;
 import org.incendo.cloud.minestom.parser.location.PosParser;
 import org.incendo.cloud.minestom.parser.location.VecParser;
 
@@ -80,11 +82,13 @@ public final class MinestomCommandManager<C> extends CommandManager<C> implement
             .registerParser(PlayerParser.playerParser())
             .registerParser(EntityTypeParser.entityTypeParser())
             .registerParser(InstanceParser.instanceParser())
-            .registerParser(GameModeParser.gameModeParser())
             .registerParser(DimensionTypeParser.dimensionTypeParser())
             .registerParser(PosParser.posParser())
             .registerParser(VecParser.vecParser())
-            .registerParser(ItemStackParser.itemStackParser());
+            .registerParser(ItemStackParser.itemStackParser())
+            .registerParser(EnchantmentParser.enchantmentParser())
+            .registerParser(SoundEventParser.soundEventParser())
+            .registerParser(AttributeParser.attributeParser());
 
         this.captionRegistry().registerProvider(new MinestomDefaultCaptionsProvider<>());
 

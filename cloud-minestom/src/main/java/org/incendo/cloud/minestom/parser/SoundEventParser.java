@@ -25,7 +25,7 @@ package org.incendo.cloud.minestom.parser;
 
 import java.util.stream.Collectors;
 import net.kyori.adventure.key.Key;
-import net.minestom.server.item.Material;
+import net.minestom.server.sound.SoundEvent;
 import org.apiguardian.api.API;
 import org.incendo.cloud.caption.CaptionVariable;
 import org.incendo.cloud.component.CommandComponent;
@@ -33,7 +33,6 @@ import org.incendo.cloud.context.CommandContext;
 import org.incendo.cloud.context.CommandInput;
 import org.incendo.cloud.exception.parsing.ParserException;
 import org.incendo.cloud.minestom.caption.MinestomCaptionKeys;
-import org.incendo.cloud.minestom.data.ProtoItemStack;
 import org.incendo.cloud.parser.ArgumentParseResult;
 import org.incendo.cloud.parser.ArgumentParser;
 import org.incendo.cloud.parser.ParserDescriptor;
@@ -41,54 +40,48 @@ import org.incendo.cloud.suggestion.BlockingSuggestionProvider;
 import org.jspecify.annotations.NonNull;
 
 /**
- * Parser for {@link ProtoItemStack}.
+ * Parser for {@link SoundEvent}, resolved by namespaced key.
  *
  * @param <C> command sender type
  */
-public final class ItemStackParser<C> implements ArgumentParser<C, ProtoItemStack>, BlockingSuggestionProvider.Strings<C> {
+public final class SoundEventParser<C> implements ArgumentParser<C, SoundEvent>, BlockingSuggestionProvider.Strings<C> {
 
     /**
-     * Creates a new item stack parser.
+     * Creates a new sound event parser.
      *
      * @param <C> command sender type
      * @return the created parser
      * @since 2.0.0
      */
     @API(status = API.Status.STABLE, since = "2.0.0")
-    public static <C> @NonNull ParserDescriptor<C, ProtoItemStack> itemStackParser() {
-        return ParserDescriptor.of(new ItemStackParser<>(), ProtoItemStack.class);
+    public static <C> @NonNull ParserDescriptor<C, SoundEvent> soundEventParser() {
+        return ParserDescriptor.of(new SoundEventParser<>(), SoundEvent.class);
     }
 
     /**
-     * Returns a {@link CommandComponent.Builder} using {@link #itemStackParser()} as the parser.
+     * Returns a {@link CommandComponent.Builder} using {@link #soundEventParser()} as the parser.
      *
      * @param <C> the command sender type
      * @return the component builder
      * @since 2.0.0
      */
     @API(status = API.Status.STABLE, since = "2.0.0")
-    public static <C> CommandComponent.@NonNull Builder<C, ProtoItemStack> itemStackComponent() {
-        return CommandComponent.<C, ProtoItemStack>builder().parser(itemStackParser());
+    public static <C> CommandComponent.@NonNull Builder<C, SoundEvent> soundEventComponent() {
+        return CommandComponent.<C, SoundEvent>builder().parser(soundEventParser());
     }
 
     @Override
-    public @NonNull ArgumentParseResult<@NonNull ProtoItemStack> parse(
+    public @NonNull ArgumentParseResult<@NonNull SoundEvent> parse(
         final @NonNull CommandContext<@NonNull C> commandContext,
         final @NonNull CommandInput commandInput
     ) {
         final String input = commandInput.readString();
-        final Key key;
-        try {
-            key = Key.key(input);
-        } catch (final Exception e) {
-            return ArgumentParseResult.failure(new ItemStackParseException(input, commandContext));
+        final Key key = input.contains(":") ? Key.key(input) : Key.key("minecraft", input);
+        final SoundEvent sound = SoundEvent.fromKey(key);
+        if (sound == null) {
+            return ArgumentParseResult.failure(new SoundEventParseException(input, commandContext));
         }
-
-        final Material material = Material.fromKey(key);
-        if (material == null) {
-            return ArgumentParseResult.failure(new ItemStackParseException(input, commandContext));
-        }
-        return ArgumentParseResult.success(new ProtoItemStack(material));
+        return ArgumentParseResult.success(sound);
     }
 
     @Override
@@ -96,32 +89,32 @@ public final class ItemStackParser<C> implements ArgumentParser<C, ProtoItemStac
         final @NonNull CommandContext<C> commandContext,
         final @NonNull CommandInput input
     ) {
-        return Material.values().stream()
-            .map(m -> m.key().value())
+        return SoundEvent.values().stream()
+            .map(s -> s.key().value())
             .collect(Collectors.toList());
     }
 
     /**
-     * Exception thrown when an item stack cannot be parsed from the input provided.
+     * Exception thrown when a sound event cannot be found for the input provided.
      */
-    public static final class ItemStackParseException extends ParserException {
+    public static final class SoundEventParseException extends ParserException {
 
         private final String input;
 
         /**
-         * Create a new item stack parse exception.
+         * Create a new sound event parse exception.
          *
-         * @param input   string input
+         * @param input string input
          * @param context command context
          */
-        public ItemStackParseException(
+        public SoundEventParseException(
             final @NonNull String input,
             final @NonNull CommandContext<?> context
         ) {
             super(
-                ItemStackParser.class,
+                SoundEventParser.class,
                 context,
-                MinestomCaptionKeys.ARGUMENT_PARSE_FAILURE_ITEM_STACK,
+                MinestomCaptionKeys.ARGUMENT_PARSE_FAILURE_SOUND_EVENT,
                 CaptionVariable.of("input", input)
             );
             this.input = input;
