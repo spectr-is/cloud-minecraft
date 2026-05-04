@@ -1,4 +1,4 @@
 /**
- * cloud-bukkit command arguments
+ * cloud-minestom command arguments
  */
 package org.incendo.cloud.minestom.parser;

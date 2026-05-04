@@ -51,15 +51,20 @@ As of right now there's only two built-in parsers that I bothered to add.
 
 ## Included parsers
 
-| Parser                | Type            | Description                                                                                         |
-|-----------------------|-----------------|-----------------------------------------------------------------------------------------------------|
-| `PlayerParser`        | `Player`        | Resolves an online player by username                                                               |
-| `EntityTypeParser`    | `EntityType`    | Resolves an entity type by namespaced key                                                           |
-| `InstanceParser`      | `Instance`      | Resolves a loaded instance by UUID                                                                  |
-| `GameModeParser`      | `GameMode`      | Resolves a game mode by name                                                                        |
-| `DimensionTypeParser` | `DimensionType` | Resolves a dimension type by namespaced key                                                         |
-| `VecParser`           | `Vec`           | Resolves a `Vec` from `x y z` (supports relative coordinates (`~ ~ ~`)                              |
-| `PosParser`           | `Pos`           | Resolves a `Pos` from `x y z`, (+ optional pitch/yaw - also supports relative coords (`~ ~ ~ ~ ~`)) |
+You'll see a decent amount of random parsers that I've added after needing them lol
+
+| Parser                     | Type                       | Description                                                                                         |
+|----------------------------|----------------------------|-----------------------------------------------------------------------------------------------------|
+| `PlayerParser`             | `Player`                   | Resolves an online player by username                                                               |
+| `EntityTypeParser`         | `EntityType`               | Resolves an entity type by namespaced key                                                           |
+| `InstanceParser`           | `Instance`                 | Resolves a loaded instance by UUID                                                                  |
+| `DimensionTypeParser`      | `DimensionType`            | Resolves a dimension type by namespaced key                                                         |
+| `VecParser`                | `Vec`                      | Resolves a `Vec` from `x y z` (supports relative coordinates (`~ ~ ~`)                              |
+| `PosParser`                | `Pos`                      | Resolves a `Pos` from `x y z`, (+ optional pitch/yaw - also supports relative coords (`~ ~ ~ ~ ~`)) |
+| `ItemStackParser`          | `ItemStack`                | Resolves an `ItemStack` from `id:meta:count`                                                        |
+| `EnchantmentParser`        | `RegistryKey<Enchantment>` | Resolves an enchantment registry key by namespaced key                                              |
+| `SoundEventParser`         | `SoundEvent`               | Resolves a builtin sound event by namespaced key                                                    |
+| `AttributeParser`          | `Attribute`                | Resolves an entity attribute by namespaced key                                                      |
 
 ## links
 
