@@ -161,8 +161,12 @@ public class ItemStackParser<C> implements ArgumentParser.FutureArgumentParser<C
                 CraftBukkitReflection.findMethod(ITEM_INPUT_CLASS, "createItemStack", int.class, boolean.class),
                 CraftBukkitReflection.findMethod(ITEM_INPUT_CLASS, "createItemStack", int.class)
         );
+
         private static final Method AS_BUKKIT_COPY_METHOD = CraftBukkitReflection
-                .needMethod(CRAFT_ITEM_STACK_CLASS, "asBukkitCopy", NMS_ITEM_STACK_CLASS);
+                .findMethod(CRAFT_ITEM_STACK_CLASS, "asBukkitCopy", NMS_ITEM_STACK_CLASS);
+        private static final Method AS_CRAFT_MIRROR_METHOD = CraftBukkitReflection
+                .findMethod(CRAFT_ITEM_STACK_CLASS, "asCraftMirror", NMS_ITEM_STACK_CLASS);
+
         private static final Field ITEM_FIELD = CraftBukkitReflection.firstNonNullOrThrow(
                 () -> "Couldn't find item field on ItemInput",
                 CraftBukkitReflection.findField(ITEM_INPUT_CLASS, "b"),
@@ -278,9 +282,13 @@ public class ItemStackParser<C> implements ArgumentParser.FutureArgumentParser<C
                     final Object nmsItemStack = CREATE_ITEM_STACK_METHOD.getParameterCount() == 1
                             ? CREATE_ITEM_STACK_METHOD.invoke(this.itemInput, stackSize)
                             : CREATE_ITEM_STACK_METHOD.invoke(this.itemInput, stackSize, true);
-                    return (ItemStack) AS_BUKKIT_COPY_METHOD.invoke(
-                            null,
-                            nmsItemStack
+                    final Method copyMethod = AS_BUKKIT_COPY_METHOD != null
+                        ? AS_BUKKIT_COPY_METHOD
+                        : AS_CRAFT_MIRROR_METHOD;
+
+                    return (ItemStack) copyMethod.invoke(
+                        null,
+                        nmsItemStack
                     );
                 } catch (final InvocationTargetException ex) {
                     final Throwable cause = ex.getCause();
