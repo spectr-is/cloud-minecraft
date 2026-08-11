@@ -25,11 +25,11 @@ repositories {
 }
 
 dependencies {
-    // 2.1.0-SNAPSHOT is the latest snapshot as of right now
-    implementation("org.incendo:cloud-minestom:2.1.0-SNAPSHOT")
+    // 2.2.0-SNAPSHOT is the latest snapshot as of right now
+    implementation("org.incendo:cloud-minestom:2.2.0-SNAPSHOT")
     
     // or, for the supertype caching optimisations:
-    implementation("org.incendo:cloud-paper:2.1.0-SNAPSHOT") // or cloud-bungee or cloud-bukkit
+    implementation("org.incendo:cloud-paper:2.2.0-SNAPSHOT") // or cloud-bungee or cloud-bukkit
 }
 ```
 
